@@ -1,5 +1,5 @@
 const niceInvoice = params => {
-    console.log('creating invoice..');
+    return params;
 }
 
-module.export = niceInvoice;
+module.exports = niceInvoice;
