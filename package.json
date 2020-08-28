@@ -1,0 +1,27 @@
+{
+  "name": "nice-invoice",
+  "version": "1.0.0",
+  "description": "An easy and quick way to generate invoice",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakhtawarshah/nice-invoice.git"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "nodejs",
+    "invoice",
+    "invoice",
+    "receipt"
+  ],
+  "author": "dev6.0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bakhtawarshah/nice-invoice/issues"
+  },
+  "homepage": "https://github.com/bakhtawarshah/nice-invoice#readme"
+}
