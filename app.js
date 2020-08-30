@@ -1,7 +1,7 @@
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
-function niceInvoice(invoice, path) {
+let niceInvoice = (invoice, path) => {
   let doc = new PDFDocument({ size: "A4", margin: 50 });
 
   header(doc);
@@ -13,20 +13,20 @@ function niceInvoice(invoice, path) {
   doc.pipe(fs.createWriteStream(path));
 }
 
-function header(doc) {
-  doc
+let header = doc => {
+    doc
     .image("logo.png", 50, 45, { width: 50 })
     .fillColor("#444444")
     .fontSize(20)
-    .text("XYZ Inc.", 110, 57)
+    .text("NiceInvoice Company", 110, 57)
     .fontSize(10)
-    .text("XYZ Inc.", 200, 50, { align: "right" })
+    .text("NiceInvoice Company", 200, 50, { align: "right" })
     .text("123 Main Street", 200, 65, { align: "right" })
     .text("Dubai, UAE, 12345", 200, 80, { align: "right" })
     .moveDown();
 }
 
-function customerInformation(doc, invoice) {
+let customerInformation = (doc, invoice)=>{
   doc
     .fillColor("#444444")
     .fontSize(20)
@@ -69,7 +69,7 @@ function customerInformation(doc, invoice) {
   generateHr(doc, 252);
 }
 
-function invoiceTable(doc, invoice) {
+let invoiceTable = (doc, invoice) => {
   let i;
   const invoiceTableTop = 330;
 
@@ -138,7 +138,7 @@ function invoiceTable(doc, invoice) {
   doc.font("Helvetica");
 }
 
-function footer(doc) {
+let footer = doc => {
   doc
     .fontSize(10)
     .text(
@@ -149,7 +149,7 @@ function footer(doc) {
     );
 }
 
-function tableRow(
+let tableRow = (
   doc,
   y,
   item,
@@ -157,8 +157,8 @@ function tableRow(
   unitCost,
   quantity,
   lineTotal
-) {
-  doc
+)=>{
+    doc
     .fontSize(10)
     .text(item, 50, y)
     .text(description, 150, y)
@@ -167,8 +167,8 @@ function tableRow(
     .text(lineTotal, 0, y, { align: "right" });
 }
 
-function generateHr(doc, y) {
-  doc
+let generateHr = (doc, y) => {
+    doc
     .strokeColor("#aaaaaa")
     .lineWidth(1)
     .moveTo(50, y)
@@ -176,11 +176,11 @@ function generateHr(doc, y) {
     .stroke();
 }
 
-function formatCurrency(cents) {
+let formatCurrency = cents => {
   return "$" + (cents / 100).toFixed(2);
 }
 
-function formatDate(date) {
+let formatDate = date => {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
