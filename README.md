@@ -7,7 +7,7 @@ An easy and quick way to create an invoice.
 
 #### Preview - An example invoice
 
-<img src="https://i.ibb.co/fdZDsnT/nice-invoice-1.png" alt="nice-invoice" border="0">
+<img src="https://i.ibb.co/gR0jvSK/nice-invoice-2.png" alt="nice-invoice-2" border="0">
 
 ## How to use it
 Following are quick steps for installing and using this package, 
