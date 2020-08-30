@@ -5,6 +5,10 @@ An easy and quick way to create an invoice.
 <img alt="npm" src="https://img.shields.io/npm/v/nice-invoice">
 <img alt="npm" src="https://img.shields.io/npm/dy/nice-invoice">
 
+#### Preview - An example invoice
+
+<img src="https://i.ibb.co/8DFyJ8R/nice-invoice.png" alt="nice-invoice" border="0">
+
 ## How to use it
 Following are quick steps for installing and using this package, 
 
