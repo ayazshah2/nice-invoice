@@ -1,6 +1,8 @@
 # Nice Invoice
 
-An easy and quick way to create an invoice
+An easy and quick way to create an invoice <br >
+
+<img alt="npm" src="https://img.shields.io/npm/dy/nice-invoice">
 
 ```const invoiceDetail = {
     shipping: {
