@@ -1,10 +1,28 @@
 # Nice Invoice
 
-An easy and quick way to create an invoice <br >
+An easy and quick way to create an invoice.
+<br ><br >
 <img alt="npm" src="https://img.shields.io/npm/v/nice-invoice">
 <img alt="npm" src="https://img.shields.io/npm/dy/nice-invoice">
 
-```const invoiceDetail = {
+## How to use it
+Following are quick steps for installing and using this package, 
+
+### Step: 01
+Install nice invoice package by following command 
+
+```npm i nice-invoice```
+
+### Step: 02
+Include package main class into your page
+```
+const niceInvoice = require("nice-invoice");
+```
+### Step: 03
+Store your invoice details into variable and then generate it. 
+
+```   
+  const invoiceDetail = {
     shipping: {
       name: "Micheal",
       address: "1234 Main Street",
@@ -47,4 +65,5 @@ An easy and quick way to create an invoice <br >
     }
 };
 
-niceInvoice(invoiceDetail, 'test-03.pdf');```
+niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
+```
