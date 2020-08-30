@@ -2,7 +2,7 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
 let niceInvoice = (invoice, path) => {
-  let doc = new PDFDocument({ size: "A4", margin: 50 });
+  let doc = new PDFDocument({ size: "A4", margin: 40 });
 
   header(doc, invoice);
   customerInformation(doc, invoice);
@@ -107,7 +107,7 @@ let invoiceTable = (doc, invoice) => {
   totalTable(
     doc,
     subtotalPosition,
-    "Total",
+    "Subtotal",
     formatCurrency(invoice.total, currencySymbol)
   );
 
