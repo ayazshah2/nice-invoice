@@ -4,26 +4,27 @@ const PDFDocument = require("pdfkit");
 let niceInvoice = (invoice, path) => {
   let doc = new PDFDocument({ size: "A4", margin: 50 });
 
-  header(doc);
+  header(doc, invoice);
   customerInformation(doc, invoice);
   invoiceTable(doc, invoice);
-  footer(doc);
+  footer(doc, invoice);
 
   doc.end();
   doc.pipe(fs.createWriteStream(path));
 }
 
-let header = doc => {
+let header = (doc, invoice) => {
     doc
-    .image("logo.png", 50, 45, { width: 50 })
+    .image(invoice.header.company_logo, 50, 45, { width: 50 })
     .fillColor("#444444")
     .fontSize(20)
-    .text("NiceInvoice Company", 110, 57)
+    .text(invoice.header.company_name, 110, 57)
     .fontSize(10)
-    .text("NiceInvoice Company", 200, 50, { align: "right" })
-    .text("123 Main Street", 200, 65, { align: "right" })
-    .text("Dubai, UAE, 12345", 200, 80, { align: "right" })
-    .moveDown();
+    .moveDown()
+    if(invoice.header.company_address.length!==0){
+      companyAddress(doc, invoice.header.company_address);
+    }
+    
 }
 
 let customerInformation = (doc, invoice)=>{
@@ -40,16 +41,12 @@ let customerInformation = (doc, invoice)=>{
     .fontSize(10)
     .text("Invoice Number:", 50, customerInformationTop)
     .font("Helvetica-Bold")
-    .text(invoice.invoice_nr, 150, customerInformationTop)
+    .text(invoice.order_number, 150, customerInformationTop)
     .font("Helvetica")
-    .text("Invoice Date:", 50, customerInformationTop + 15)
-    .text(formatDate(new Date()), 150, customerInformationTop + 15)
-    .text("Balance Due:", 50, customerInformationTop + 30)
-    .text(
-      formatCurrency(invoice.subtotal - invoice.paid),
-      150,
-      customerInformationTop + 30
-    )
+    .text("Billing Date:", 50, customerInformationTop + 15)
+    .text(invoice.date.billing_date, 150, customerInformationTop + 15)
+    .text("Due Date:", 50, customerInformationTop + 30)
+    .text(invoice.date.due_date,150,customerInformationTop + 30)
 
     .font("Helvetica-Bold")
     .text(invoice.shipping.name, 300, customerInformationTop)
@@ -72,6 +69,7 @@ let customerInformation = (doc, invoice)=>{
 let invoiceTable = (doc, invoice) => {
   let i;
   const invoiceTableTop = 330;
+  const currencySymbol = invoice.currency_symbol;
 
   doc.font("Helvetica-Bold");
   tableRow(
@@ -81,7 +79,8 @@ let invoiceTable = (doc, invoice) => {
     "Description",
     "Unit Cost",
     "Quantity",
-    "Line Total"
+    "Total",
+    "Tax"
   );
   generateHr(doc, invoiceTableTop + 20);
   doc.font("Helvetica");
@@ -94,59 +93,50 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.item,
       item.description,
-      formatCurrency(item.amount / item.quantity),
+      formatCurrency(item.price / item.quantity, currencySymbol),
       item.quantity,
-      formatCurrency(item.amount)
+      formatCurrency(item.price, currencySymbol), 
+      item.tax
     );
 
     generateHr(doc, position + 20);
   }
 
   const subtotalPosition = invoiceTableTop + (i + 1) * 30;
-  tableRow(
+  doc.font("Helvetica-Bold");
+  totalTable(
     doc,
     subtotalPosition,
-    "",
-    "",
-    "Subtotal",
-    "",
-    formatCurrency(invoice.subtotal)
+    "Total",
+    formatCurrency(invoice.total, currencySymbol)
   );
 
   const paidToDatePosition = subtotalPosition + 20;
-  tableRow(
+  doc.font("Helvetica-Bold");
+  totalTable(
     doc,
     paidToDatePosition,
-    "",
-    "",
-    "Paid To Date",
-    "",
-    formatCurrency(invoice.paid)
+    "Total",
+    formatCurrency(invoice.total, currencySymbol)
   );
-
-  const duePosition = paidToDatePosition + 25;
-  doc.font("Helvetica-Bold");
-  tableRow(
-    doc,
-    duePosition,
-    "",
-    "",
-    "Balance Due",
-    "",
-    formatCurrency(invoice.subtotal - invoice.paid)
-  );
-  doc.font("Helvetica");
 }
 
-let footer = doc => {
-  doc
+let footer = (doc, invoice) => {
+  if(invoice.footer.text.length!==0){
+    doc.fontSize(10).text(invoice.footer.text,50,780,{ align: "center", width: 500 });
+  } 
+}
+
+let totalTable = (
+  doc,
+  y,
+  name,
+  description
+)=>{
+    doc
     .fontSize(10)
-    .text(
-      "Any footer text - you can add any text here",
-      50,
-      780,
-      { align: "center", width: 500 }
-    );
+    .text(name, 400, y,{ width: 90, align: "right" })
+    .text(description, 0, y, { align: "right" })
 }
 
 let tableRow = (
@@ -156,15 +146,17 @@ let tableRow = (
   description,
   unitCost,
   quantity,
-  lineTotal
+  lineTotal,
+  tax
 )=>{
     doc
     .fontSize(10)
     .text(item, 50, y)
-    .text(description, 150, y)
+    .text(description, 130, y)
     .text(unitCost, 280, y, { width: 90, align: "right" })
-    .text(quantity, 370, y, { width: 90, align: "right" })
-    .text(lineTotal, 0, y, { align: "right" });
+    .text(quantity, 335, y, { width: 90, align: "right" })
+    .text(lineTotal, 400, y,{ width: 90, align: "right" })
+    .text(tax, 0, y, { align: "right" });
 }
 
 let generateHr = (doc, y) => {
@@ -176,16 +168,18 @@ let generateHr = (doc, y) => {
     .stroke();
 }
 
-let formatCurrency = cents => {
-  return "$" + (cents / 100).toFixed(2);
+let formatCurrency = (cents, symbol) => {
+  return symbol + cents.toFixed(2);
 }
 
-let formatDate = date => {
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-
-  return year + "/" + month + "/" + day;
+let companyAddress = (doc, address) => {
+  let str = address;
+  let chunks = str.match(/.{0,25}(\s|$)/g);
+  let first = 50;
+  chunks.forEach(function (i,x) {
+    doc.text(chunks[x], 200, first, { align: "right" });
+    first = +first +  15;
+  });
 }
 
 module.exports = niceInvoice;
