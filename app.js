@@ -42,8 +42,7 @@ let customerInformation = (doc, invoice)=>{
 
   const customerInformationTop = 200;
 
-  doc
-    .fontSize(10)
+    doc.fontSize(10)
     .text("Invoice Number:", 50, customerInformationTop)
     .font("Helvetica-Bold")
     .text(invoice.order_number, 150, customerInformationTop)
@@ -98,9 +97,9 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.item,
       item.description,
-      formatCurrency(item.price / item.quantity, currencySymbol),
+      formatCurrency(item.price, currencySymbol),
       item.quantity,
-      formatCurrency(item.price, currencySymbol), 
+      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol), 
       item.tax
     );
 
@@ -177,6 +176,27 @@ let formatCurrency = (cents, symbol) => {
   return symbol + cents.toFixed(2);
 }
 
+let getNumber =  str =>  { 
+  var num = str.replace(/[^0-9]/g, ''); 
+  return num; 
+}
+
+
+let applyTaxIfAvailable = (price, quantity, tax) => {
+  
+
+  let validatedTax = getNumber(tax);
+  if(Number.isNaN(validatedTax) === false && validatedTax <= 100){
+    let taxValue = '.'+validatedTax;
+    var itemPrice = (price * quantity) * (1 + taxValue);  
+  }else{
+    console.log('no');
+    var itemPrice = (price * quantity) * (1 + taxValue);
+  }
+  
+  return itemPrice;
+}
+
 let companyAddress = (doc, address) => {
   let str = address;
   let chunks = str.match(/.{0,25}(\s|$)/g);
@@ -188,3 +208,49 @@ let companyAddress = (doc, address) => {
 }
 
 module.exports = niceInvoice;
+
+
+const invoiceDetail = {
+    shipping: {
+      name: "Micheal",
+      address: "1234 Main Street",
+      city: "Dubai",
+      state: "Dubai",
+      country: "UAE",
+      postal_code: 94111
+    },
+    items: [
+      {
+        item: "Chair",
+        description: "Wooden chair",
+        quantity: 3,
+        price: 50.00, 
+        tax: "10%"
+      },
+      {
+        item: "Watch",
+        description: "Wall watch for office",
+        quantity: 1,
+        price: 70.00,
+        tax: "10%"
+      }
+    ],
+    subtotal: 120,
+    total: 120,
+    order_number: 1234222,
+    header:{
+        company_name: "Nice Invoice",
+        company_logo: "logo.png",
+        company_address: "Nice Invoice. 123 William Street 1th Floor New York, NY 123456"
+    },
+    footer:{
+      text: "Any footer text - you can add any text here"
+    },
+    currency_symbol:"$", 
+    date: {
+      billing_date: "08 August 2020",
+      due_date: "10 September 2020",
+    }
+};
+
+niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
