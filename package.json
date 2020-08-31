@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/bakhtawarshah/nice-invoice/issues"
   },
-  "homepage": "https://github.com/bakhtawarshah/nice-invoice#readme"
+  "homepage": "https://github.com/bakhtawarshah/nice-invoice#readme",
+  "dependencies": {
+    "pdfkit": "^0.11.0"
+  }
 }
