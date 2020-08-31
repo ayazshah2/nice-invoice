@@ -2,12 +2,12 @@
 
 An easy and quick way to create an invoice. <br>
 
-If this package helped you out please star us on Github! <br>
-<img alt="GitHub stars" src="https://img.shields.io/github/stars/bakhtawarshah/nice-invoice?style=social">
-
-<br ><br >
+<br >
 <img alt="npm" src="https://img.shields.io/npm/v/nice-invoice">
 <img alt="npm" src="https://img.shields.io/npm/dy/nice-invoice">
+<br>
+If this package helped you out please star us on Github! <br>
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/bakhtawarshah/nice-invoice?style=social">
 
 #### Preview - An example invoice
 
