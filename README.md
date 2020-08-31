@@ -26,7 +26,7 @@ const niceInvoice = require("nice-invoice");
 Store your invoice details into variable and then generate it. 
 
 ```   
-  const invoiceDetail = {
+const invoiceDetail = {
     shipping: {
       name: "Micheal",
       address: "1234 Main Street",
@@ -39,23 +39,30 @@ Store your invoice details into variable and then generate it.
       {
         item: "Chair",
         description: "Wooden chair",
-        quantity: 2,
+        quantity: 1,
         price: 50.00, 
         tax: "10%"
       },
       {
         item: "Watch",
         description: "Wall watch for office",
-        quantity: 1,
-        price: 70.00,
+        quantity: 2,
+        price: 30.00,
         tax: "10%"
+      },
+      {
+        item: "Water Glass Set",
+        description: "Water glass set for office",
+        quantity: 1,
+        price: 35.00,
+        tax: ""
       }
     ],
-    subtotal: 120,
-    total: 120,
+    subtotal: 156,
+    total: 156,
     order_number: 1234222,
     header:{
-        company_name: "Nice Invoice Company",
+        company_name: "Nice Invoice",
         company_logo: "logo.png",
         company_address: "Nice Invoice. 123 William Street 1th Floor New York, NY 123456"
     },
@@ -74,4 +81,6 @@ niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
 
 ### Optional Parameters 
 Following parameters you can leave it blank <br >
-```company_logo: "logo.png",```
+company_logo: ```company_logo: "logo.png",``` <br>
+tax: ```tax: ""```
+
