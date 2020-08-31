@@ -71,3 +71,7 @@ Store your invoice details into variable and then generate it.
 
 niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
 ```
+
+### Optional Parameters 
+Following parameters you can leave it blank
+```company_logo: "logo.png",```
