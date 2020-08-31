@@ -14,13 +14,18 @@ let niceInvoice = (invoice, path) => {
 }
 
 let header = (doc, invoice) => {
-    doc
-    .image(invoice.header.company_logo, 50, 45, { width: 50 })
-    .fillColor("#444444")
-    .fontSize(20)
-    .text(invoice.header.company_name, 110, 57)
-    .fontSize(10)
-    .moveDown()
+
+    if (fs.existsSync(invoice.header.company_logo)) {
+      doc.image(invoice.header.company_logo, 50, 45, { width: 50 })
+      .fontSize(20)
+      .text(invoice.header.company_name, 110, 57)
+      .moveDown();
+    }else{
+      doc.fontSize(20)
+      .text(invoice.header.company_name, 50, 45)
+      .moveDown()
+    }
+
     if(invoice.header.company_address.length!==0){
       companyAddress(doc, invoice.header.company_address);
     }
@@ -177,7 +182,7 @@ let companyAddress = (doc, address) => {
   let chunks = str.match(/.{0,25}(\s|$)/g);
   let first = 50;
   chunks.forEach(function (i,x) {
-    doc.text(chunks[x], 200, first, { align: "right" });
+    doc.fontSize(10).text(chunks[x], 200, first, { align: "right" });
     first = +first +  15;
   });
 }
