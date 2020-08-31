@@ -14,13 +14,18 @@ let niceInvoice = (invoice, path) => {
 }
 
 let header = (doc, invoice) => {
-    doc
-    .image(invoice.header.company_logo, 50, 45, { width: 50 })
-    .fillColor("#444444")
-    .fontSize(20)
-    .text(invoice.header.company_name, 110, 57)
-    .fontSize(10)
-    .moveDown()
+
+    if (fs.existsSync(invoice.header.company_logo)) {
+      doc.image(invoice.header.company_logo, 50, 45, { width: 50 })
+      .fontSize(20)
+      .text(invoice.header.company_name, 110, 57)
+      .moveDown();
+    }else{
+      doc.fontSize(20)
+      .text(invoice.header.company_name, 50, 45)
+      .moveDown()
+    }
+
     if(invoice.header.company_address.length!==0){
       companyAddress(doc, invoice.header.company_address);
     }
@@ -37,8 +42,7 @@ let customerInformation = (doc, invoice)=>{
 
   const customerInformationTop = 200;
 
-  doc
-    .fontSize(10)
+    doc.fontSize(10)
     .text("Invoice Number:", 50, customerInformationTop)
     .font("Helvetica-Bold")
     .text(invoice.order_number, 150, customerInformationTop)
@@ -93,10 +97,10 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.item,
       item.description,
-      formatCurrency(item.price / item.quantity, currencySymbol),
+      formatCurrency(item.price, currencySymbol),
       item.quantity,
-      formatCurrency(item.price, currencySymbol), 
-      item.tax
+      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol), 
+      checkIfTaxAvailable(item.tax)
     );
 
     generateHr(doc, position + 20);
@@ -172,12 +176,47 @@ let formatCurrency = (cents, symbol) => {
   return symbol + cents.toFixed(2);
 }
 
+let getNumber =  str =>  { 
+  if(str.length!==0){
+    var num = str.replace(/[^0-9]/g, ''); 
+  }else{
+    var num = 0;
+  }
+  
+  return num; 
+}
+
+let checkIfTaxAvailable = tax => {
+  let validatedTax = getNumber(tax);
+  if(Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0){
+    var taxValue = tax;  
+  }else{
+    var taxValue = '---';
+  }
+  
+  return taxValue;
+}
+
+let applyTaxIfAvailable = (price, quantity, tax) => {
+  
+
+  let validatedTax = getNumber(tax);
+  if(Number.isNaN(validatedTax) === false && validatedTax <= 100){
+    let taxValue = '.'+validatedTax;
+    var itemPrice = (price * quantity) * (1 + taxValue);  
+  }else{
+    var itemPrice = (price * quantity) * (1 + taxValue);
+  }
+  
+  return itemPrice;
+}
+
 let companyAddress = (doc, address) => {
   let str = address;
   let chunks = str.match(/.{0,25}(\s|$)/g);
   let first = 50;
   chunks.forEach(function (i,x) {
-    doc.text(chunks[x], 200, first, { align: "right" });
+    doc.fontSize(10).text(chunks[x], 200, first, { align: "right" });
     first = +first +  15;
   });
 }
