@@ -9,6 +9,10 @@ An easy and quick way to create an invoice. <br>
 
 <img src="https://i.ibb.co/LnSK8rG/nice-invoice-3.png" alt="nice-invoice-2" border="0">
 
+#### Features
+ - Adjust Logo if available
+ - Calculate price with quantity
+
 ## How to use it
 Following are quick steps for installing and using this package, 
 
