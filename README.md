@@ -88,3 +88,6 @@ Following parameters you can leave it blank <br >
 company_logo: ```company_logo: "",``` <br>
 tax: ```tax: ""```
 
+### Contributions
+
+Contributions and suggestions are very welcome and wanted. I try to respond to pull requests within 24 hours
