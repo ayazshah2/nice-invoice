@@ -12,6 +12,7 @@ An easy and quick way to create an invoice. <br>
 #### Features
  - Adjust Logo if available
  - Calculate price with quantity
+ - Apply and calculate tax
 
 ## How to use it
 Following are quick steps for installing and using this package, 
