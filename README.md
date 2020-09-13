@@ -18,7 +18,7 @@ An easy and quick way to create an invoice. <br>
 Following are quick steps for installing and using this package, 
 
 ### Step: 01
-Install nice invoice package by following command 
+Install nice invoice package by following command. 
 
 ```npm i nice-invoice```
 
