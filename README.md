@@ -72,7 +72,7 @@ const invoiceDetail = {
         company_address: "Nice Invoice. 123 William Street 1th Floor New York, NY 123456"
     },
     footer:{
-      text: "Any footer text - you can add any text here"
+      text: "This is footer - you can add any text here"
     },
     currency_symbol:"$", 
     date: {
