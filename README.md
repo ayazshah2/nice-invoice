@@ -85,7 +85,7 @@ niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
 ```
 
 ### Optional Parameters 
-Following parameters you can leave it blank <br >
+Following parameters you can leave it blank, <br >
 company_logo: ```company_logo: "",``` <br>
 tax: ```tax: ""```
 
