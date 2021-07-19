@@ -15,7 +15,7 @@ An easy and quick way to create an invoice. <br>
  - Apply and calculate tax
 
 ## How to use it
-Checkout article for instllation or Following are quick steps for installing and using this package, 
+Checkout <a href="https://medium.com/@devops6.01/a-nodejs-based-invoice-generator-package-370c2cda47f6">article</a>  for instllation or Following are quick steps for installing and using this package, 
 
 ### Step: 01
 Install nice invoice package by following command. 
