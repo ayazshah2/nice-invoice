@@ -15,7 +15,7 @@ An easy and quick way to create an invoice. <br>
  - Apply and calculate tax
 
 ## How to use it
-Following are quick steps for installing and using this package, 
+Checkout article for instllation or Following are quick steps for installing and using this package, 
 
 ### Step: 01
 Install nice invoice package by following command. 
