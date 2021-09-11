@@ -24,7 +24,7 @@ let header = (doc, invoice) => {
     }else{
       doc.fontSize(20)
       .text(invoice.header.company_name, 50, 45)
-      .moveDown()
+      .moveDown();
     }
 
     if(invoice.header.company_address.length!==0){
