@@ -95,4 +95,4 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 
 ### Change Log
 
-You can see change logs by clicking on <a href="https://github.com/bakhtawarshah/nice-invoice/blob/master/CONTRIBUTE.md">CHANGELOG.md</a> file 
+You can see change logs by clicking on <a href="https://github.com/bakhtawarshah/nice-invoice/blob/master/CHANGELOG.md">CHANGELOG.md</a> file 
