@@ -92,3 +92,7 @@ tax: ```tax: ""```
 ### Contributions
 
 Contributions and suggestions are very welcome and wanted. I try to respond to pull requests within 24 hours, checkout <a href="https://github.com/bakhtawarshah/nice-invoice/blob/master/CONTRIBUTE.md">How to contribute</a>
+
+### Change Log
+
+You can see change logs by clicking on <a href="https://github.com/bakhtawarshah/nice-invoice/blob/master/CONTRIBUTE.md">CHANGELOG.md</a> file 
