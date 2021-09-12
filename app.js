@@ -199,7 +199,6 @@ let checkIfTaxAvailable = tax => {
 
 let applyTaxIfAvailable = (price, quantity, tax) => {
   
-
   let validatedTax = getNumber(tax);
   if(Number.isNaN(validatedTax) === false && validatedTax <= 100){
     let taxValue = '.'+validatedTax;
