@@ -1,6 +1,6 @@
 {
   "name": "nice-invoice",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "An easy and quick way to generate invoice",
   "main": "app.js",
   "scripts": {
