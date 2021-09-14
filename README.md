@@ -15,6 +15,10 @@ An easy and quick way to create an invoice.<br>
  - Calculate price with quantity
  - Apply and calculate tax
 
+### Using unkpg CDN:
+
+```<script src="https://unpkg.com/nice-invoice@1.1.4/dist/index.js"></script>```
+
 ## How to use it
 Checkout <a href="https://medium.com/@devops6.01/a-nodejs-based-invoice-generator-package-370c2cda47f6">article</a>  for instllation or Following are quick steps for installing and using this package, 
 

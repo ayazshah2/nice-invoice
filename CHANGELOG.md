@@ -7,6 +7,7 @@
 - Formatting
 - Structure change
 - Change Url
+- Add CDN
 
 ### Changed
  
