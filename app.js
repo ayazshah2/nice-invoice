@@ -50,7 +50,7 @@ let customerInformation = (doc, invoice)=>{
     .text("Billing Date:", 50, customerInformationTop + 15)
     .text(invoice.date.billing_date, 150, customerInformationTop + 15)
     .text("Due Date:", 50, customerInformationTop + 30)
-    .text(invoice.date.due_date,150,customerInformationTop + 30)
+    .text(invoice.date.due_date, 150, customerInformationTop + 30)
 
     .font("Helvetica-Bold")
     .text(invoice.shipping.name, 300, customerInformationTop)
@@ -127,7 +127,7 @@ let invoiceTable = (doc, invoice) => {
 
 let footer = (doc, invoice) => {
   if(invoice.footer.text.length!==0){
-    doc.fontSize(10).text(invoice.footer.text,50,780,{ align: "center", width: 500 });
+    doc.fontSize(10).text(invoice.footer.text, 50, 780, { align: "center", width: 500 });
   } 
 }
 
@@ -137,8 +137,7 @@ let totalTable = (
   name,
   description
 )=>{
-    doc
-    .fontSize(10)
+    doc.fontSize(10)
     .text(name, 400, y,{ width: 90, align: "right" })
     .text(description, 0, y, { align: "right" })
 }
@@ -153,8 +152,7 @@ let tableRow = (
   lineTotal,
   tax
 )=>{
-    doc
-    .fontSize(10)
+    doc.fontSize(10)
     .text(item, 50, y)
     .text(description, 130, y)
     .text(unitCost, 280, y, { width: 90, align: "right" })
@@ -164,8 +162,7 @@ let tableRow = (
 }
 
 let generateHr = (doc, y) => {
-    doc
-    .strokeColor("#aaaaaa")
+    doc.strokeColor("#aaaaaa")
     .lineWidth(1)
     .moveTo(50, y)
     .lineTo(550, y)
