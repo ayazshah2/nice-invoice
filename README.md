@@ -5,6 +5,7 @@ An easy and quick way to create an invoice.<br>
 <img alt="npm" src="https://img.shields.io/npm/v/nice-invoice"><img alt="npm" src="https://img.shields.io/npm/dy/nice-invoice">
 
 :star: Star us on <a href="https://github.com/ayazshah2/nice-invoice" title="Nice Invoice">Github</a> — it helps!
+
 :inbox_tray: 2852 downloads
 
 #### Preview - An example invoice 
