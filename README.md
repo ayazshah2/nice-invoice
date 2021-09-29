@@ -6,7 +6,7 @@ An easy and quick way to create an invoice.<br>
 
 :star: Star us on <a href="https://github.com/ayazshah2/nice-invoice" title="Nice Invoice">Github</a> — it helps!
 
-#### Preview - An example invoice
+#### Preview - An example invoice 
 
 <img src="https://i.ibb.co/LnSK8rG/nice-invoice-3.png" alt="nice-invoice-2" border="0">
 
@@ -19,7 +19,7 @@ An easy and quick way to create an invoice.<br>
 
 ```<script src="https://unpkg.com/nice-invoice@1.1.4/dist/index.js"></script>```
 
-## How to use it
+## How to use it?
 Checkout <a href="https://medium.com/@devops6.01/a-nodejs-based-invoice-generator-package-370c2cda47f6">article</a>  for instllation or Following are quick steps for installing and using this package, 
 
 ### Step: 01
