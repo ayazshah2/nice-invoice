@@ -6,7 +6,7 @@ An easy and quick way to create an invoice.<br>
 
 :star: Star us on <a href="https://github.com/ayazshah2/nice-invoice" title="Nice Invoice">Github</a> — it helps!
 
-:inbox_tray: 3020 Downloads, Checkout on <a href="https://npm-stat.com/charts.html?package=nice-invoice&from=2020-07-01&to=2021-09-30" title="Nice Invoice Stat on npm-stat.com">npm-stat.com</a> 
+:inbox_tray: 3756 Downloads, Checkout on <a href="https://npm-stat.com/charts.html?package=nice-invoice&from=2020-07-01&to=2021-11-30" title="Nice Invoice Stat on npm-stat.com">npm-stat.com</a> 
 
 #### Preview - An example invoice 
 
