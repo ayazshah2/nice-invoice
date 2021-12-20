@@ -92,7 +92,8 @@ const invoiceDetail = {
 niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
 ```
 
-### Return generated PDF in Buffer
+Or store the PDF in a buffer and have the client's browser download it
+
 
 ```
 const { niceInvoiceBuffer } = require("nice-invoice");
