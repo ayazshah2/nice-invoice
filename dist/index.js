@@ -9,9 +9,30 @@ let niceInvoice = (invoice, path) => {
   customerInformation(doc, invoice);
   invoiceTable(doc, invoice);
   footer(doc, invoice);
-
+  
   doc.end();
   doc.pipe(fs.createWriteStream(path));
+}
+
+let niceInvoiceBuffer = async (invoice) => {
+  let doc = new PDFDocument({ size: "A4", margin: 40 });
+  let buffers = [];
+  let pdfBuffers;
+
+  doc.on('data',buffers.push.bind(buffers));
+
+  doc.on('end', function() {
+    pdfBuffers = Buffer.concat(buffers);
+  });
+
+  header(doc, invoice);
+  customerInformation(doc, invoice);
+  invoiceTable(doc, invoice);
+  footer(doc, invoice);
+  
+  await doc.end();
+
+  return pdfBuffers;
 }
 
 let header = (doc, invoice) => {
@@ -217,4 +238,4 @@ let companyAddress = (doc, address) => {
   });
 }
 
-module.exports = niceInvoice;
+module.exports = { niceInvoice, niceInvoiceBuffer };
