@@ -15,17 +15,19 @@ let niceInvoice = (invoice, path) => {
   doc.pipe(fs.createWriteStream(path));
 }
 
-let niceInvoiceBuffer = async (invoice) => {
+let niceInvoiceBase64 = async (invoice) => {
   let doc = new PDFDocument({ size: "A4", margin: 40 });
 
   header(doc, invoice);
   customerInformation(doc, invoice);
   invoiceTable(doc, invoice);
   footer(doc, invoice);
-  
+
   await doc.end();
 
-  return await getStream.buffer(doc);
+  const pdfBuffer = await getStream.buffer(doc);
+
+  return Buffer.from(pdfBuffer).toString('base64');
 }
 
 let header = (doc, invoice) => {
@@ -231,4 +233,4 @@ let companyAddress = (doc, address) => {
   });
 }
 
-module.exports = { niceInvoice, niceInvoiceBuffer };
+module.exports = { niceInvoice, niceInvoiceBase64 };
