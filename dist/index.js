@@ -27,7 +27,7 @@ let niceInvoiceBase64 = async (invoice) => {
 
   const pdfBuffer = await getStream.buffer(doc);
 
-  return Buffer.from(pdfBuffer).toString('base64');
+  return Buffer.from(pdfBuffer);
 }
 
 let header = (doc, invoice) => {
@@ -67,6 +67,8 @@ let customerInformation = (doc, invoice)=>{
     .text(invoice.date.billing_date, 150, customerInformationTop + 15)
     .text("Due Date:", 50, customerInformationTop + 30)
     .text(invoice.date.due_date, 150, customerInformationTop + 30)
+    .text("Tax ID:", 50, customerInformationTop + 45)
+    .text(invoice.taxId.toUpperCase(), 150, customerInformationTop + 45)
 
     .font("Helvetica-Bold")
     .text(invoice.shipping.name, 300, customerInformationTop)
@@ -83,7 +85,7 @@ let customerInformation = (doc, invoice)=>{
     )
     .moveDown();
 
-  generateHr(doc, 252);
+  generateHr(doc, 267);
 }
 
 let invoiceTable = (doc, invoice) => {
@@ -100,7 +102,7 @@ let invoiceTable = (doc, invoice) => {
     "Unit Cost",
     "Quantity",
     "Total",
-    "Tax"
+    `${invoice.taxType.toUpperCase()} Tax`
   );
   generateHr(doc, invoiceTableTop + 20);
   doc.font("Helvetica");
