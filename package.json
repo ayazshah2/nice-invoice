@@ -26,5 +26,8 @@
   "homepage": "https://github.com/ayazshah2/nice-invoice#readme",
   "dependencies": {
     "pdfkit": "^0.11.0"
+  },
+  "peerDependencies": {
+    "get-stream": "^6.0.1"
   }
 }

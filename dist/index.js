@@ -1,6 +1,7 @@
 // Required packages
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
+const getStream = require('get-stream');
 
 let niceInvoice = (invoice, path) => {
   let doc = new PDFDocument({ size: "A4", margin: 40 });
@@ -16,14 +17,6 @@ let niceInvoice = (invoice, path) => {
 
 let niceInvoiceBuffer = async (invoice) => {
   let doc = new PDFDocument({ size: "A4", margin: 40 });
-  let buffers = [];
-  let pdfBuffers;
-
-  doc.on('data',buffers.push.bind(buffers));
-
-  doc.on('end', function() {
-    pdfBuffers = Buffer.concat(buffers);
-  });
 
   header(doc, invoice);
   customerInformation(doc, invoice);
@@ -32,7 +25,7 @@ let niceInvoiceBuffer = async (invoice) => {
   
   await doc.end();
 
-  return pdfBuffers;
+  return await getStream.buffer(doc);
 }
 
 let header = (doc, invoice) => {
