@@ -103,7 +103,7 @@ let invoiceTable = (doc, invoice) => {
     "Unit Cost",
     "Quantity",
     "Total",
-    `${invoice.taxType.toUpperCase() || null} Tax`
+    `${invoice.taxType.toUpperCase()} Tax`
   );
   generateHr(doc, invoiceTableTop + 20);
   doc.font("Helvetica");
