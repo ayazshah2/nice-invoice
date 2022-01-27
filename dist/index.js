@@ -116,9 +116,9 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.item,
       item.description,
-      formatCurrency(item.price, currencySymbol),
+      formatCurrency(item.price),
       item.quantity,
-      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol), 
+      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax)), 
       checkIfTaxAvailable(item.tax)
     );
 
@@ -131,16 +131,25 @@ let invoiceTable = (doc, invoice) => {
     doc,
     subtotalPosition,
     "Subtotal",
-    formatCurrency(invoice.total, currencySymbol)
+    `${currencySymbol}${formatCurrency(invoice.total)}`
   );
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const discountsPosition = invoiceTableTop + (i + 1) * 34;
+  doc.font("Helvetica-Bold");
+  totalTable(
+    doc,
+    discountsPosition,
+    "Discounts",
+    `${currencySymbol}${formatCurrency(invoice.discounts)}`
+  );
+
+  const paidToDatePosition = discountsPosition + 20;
   doc.font("Helvetica-Bold");
   totalTable(
     doc,
     paidToDatePosition,
     "Total",
-    formatCurrency(invoice.total, currencySymbol)
+    `${currencySymbol}${formatCurrency(invoice.total)}`
   );
 }
 
@@ -189,7 +198,7 @@ let generateHr = (doc, y) => {
 }
 
 let formatCurrency = (cents, symbol) => {
-  return symbol + cents.toFixed(2);
+  return cents.toFixed(2);
 }
 
 let getNumber =  str =>  { 
