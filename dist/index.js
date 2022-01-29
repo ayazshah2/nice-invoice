@@ -131,7 +131,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     subtotalPosition,
     "Subtotal",
-    `${currencySymbol}${formatCurrency(invoice.total)}`
+    `${currencySymbol}${formatCurrency(invoice.subtotal)}`
   );
 
   const discountsPosition = invoiceTableTop + (i + 1) * 34;
