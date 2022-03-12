@@ -34,6 +34,7 @@ Include package main class into your page
 ```
 const niceInvoice = require("nice-invoice");
 ```
+
 ### Step: 03
 Store your invoice details into variable and then generate it. 
 
@@ -89,6 +90,18 @@ const invoiceDetail = {
 };
 
 niceInvoice(invoiceDetail, 'your-invoice-name.pdf');
+```
+
+Or store the PDF in a buffer and have the client's browser download it
+
+
+```
+const { niceInvoiceBuffer } = require("nice-invoice");
+
+const invoiceDetail = { ... };
+
+const pdfBuffer = niceInvoiceBuffer(invoiceDetail);
+
 ```
 
 ### Optional Parameters 

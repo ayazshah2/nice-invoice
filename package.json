@@ -1,7 +1,7 @@
 {
-  "name": "nice-invoice",
-  "version": "1.1.7",
-  "description": "An easy and quick way to generate invoice",
+  "name": "mycivio-nice-invoice",
+  "version": "1.1.14",
+  "description": "This is a forked repo from the nice-invoice package. An easy and quick way to generate invoice.",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,5 +26,8 @@
   "homepage": "https://github.com/ayazshah2/nice-invoice#readme",
   "dependencies": {
     "pdfkit": "^0.11.0"
+  },
+  "peerDependencies": {
+    "get-stream": "^6.0.1"
   }
 }

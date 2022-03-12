@@ -1,6 +1,7 @@
 // Required packages
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
+const getStream = require('get-stream');
 
 let niceInvoice = (invoice, path) => {
   let doc = new PDFDocument({ size: "A4", margin: 40 });
@@ -9,9 +10,24 @@ let niceInvoice = (invoice, path) => {
   customerInformation(doc, invoice);
   invoiceTable(doc, invoice);
   footer(doc, invoice);
-
+  
   doc.end();
   doc.pipe(fs.createWriteStream(path));
+}
+
+let niceInvoiceBase64 = async (invoice) => {
+  let doc = new PDFDocument({ size: "A4", margin: 40 });
+
+  header(doc, invoice);
+  customerInformation(doc, invoice);
+  invoiceTable(doc, invoice);
+  footer(doc, invoice);
+
+  await doc.end();
+
+  const pdfBuffer = await getStream.buffer(doc);
+
+  return Buffer.from(pdfBuffer).toString('base64');
 }
 
 let header = (doc, invoice) => {
@@ -34,6 +50,7 @@ let header = (doc, invoice) => {
 }
 
 let customerInformation = (doc, invoice)=>{
+
   doc.fillColor("#444444")
   .fontSize(20)
   .text("Invoice", 50, 160);
@@ -51,6 +68,8 @@ let customerInformation = (doc, invoice)=>{
     .text(invoice.date.billing_date, 150, customerInformationTop + 15)
     .text("Due Date:", 50, customerInformationTop + 30)
     .text(invoice.date.due_date, 150, customerInformationTop + 30)
+    .text("Tax ID:", 50, customerInformationTop + 45)
+    .text(invoice.taxId.toUpperCase(), 150, customerInformationTop + 45)
 
     .font("Helvetica-Bold")
     .text(invoice.shipping.name, 300, customerInformationTop)
@@ -67,7 +86,7 @@ let customerInformation = (doc, invoice)=>{
     )
     .moveDown();
 
-  generateHr(doc, 252);
+  generateHr(doc, 267);
 }
 
 let invoiceTable = (doc, invoice) => {
@@ -84,7 +103,7 @@ let invoiceTable = (doc, invoice) => {
     "Unit Cost",
     "Quantity",
     "Total",
-    "Tax"
+    `${invoice.taxType.toUpperCase()} Tax`
   );
   generateHr(doc, invoiceTableTop + 20);
   doc.font("Helvetica");
@@ -97,9 +116,9 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.item,
       item.description,
-      formatCurrency(item.price, currencySymbol),
+      formatCurrency(item.price),
       item.quantity,
-      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol), 
+      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax)), 
       checkIfTaxAvailable(item.tax)
     );
 
@@ -112,16 +131,25 @@ let invoiceTable = (doc, invoice) => {
     doc,
     subtotalPosition,
     "Subtotal",
-    formatCurrency(invoice.total, currencySymbol)
+    `${currencySymbol}${formatCurrency(invoice.subtotal)}`
   );
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const discountsPosition = invoiceTableTop + (i + 1) * 34;
+  doc.font("Helvetica-Bold");
+  totalTable(
+    doc,
+    discountsPosition,
+    "Discounts",
+    `${currencySymbol}${formatCurrency(invoice.discounts)}`
+  );
+
+  const paidToDatePosition = discountsPosition + 20;
   doc.font("Helvetica-Bold");
   totalTable(
     doc,
     paidToDatePosition,
     "Total",
-    formatCurrency(invoice.total, currencySymbol)
+    `${currencySymbol}${formatCurrency(invoice.total)}`
   );
 }
 
@@ -170,7 +198,7 @@ let generateHr = (doc, y) => {
 }
 
 let formatCurrency = (cents, symbol) => {
-  return symbol + cents.toFixed(2);
+  return cents.toFixed(2);
 }
 
 let getNumber =  str =>  { 
@@ -217,4 +245,4 @@ let companyAddress = (doc, address) => {
   });
 }
 
-module.exports = niceInvoice;
+module.exports = { niceInvoice, niceInvoiceBase64 };
