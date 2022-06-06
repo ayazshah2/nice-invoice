@@ -22,7 +22,7 @@ An easy and quick way to create an invoice.<br>
 ```<script src="https://unpkg.com/nice-invoice@1.1.4/dist/index.js"></script>```
 
 ## How to use it?
-Checkout <a href="https://coderadvise.com/best-pdf-invoice-generator-package-of-nodejs/">article</a>  for instllation or Following are quick steps for installing and using this package, 
+Checkout <a href="https://coderadvise.com/best-pdf-invoice-generator-package-of-nodejs/">this article</a> for installation instructions or go over the steps below, 
 
 ### Step: 01
 Install nice invoice package by following command. 
