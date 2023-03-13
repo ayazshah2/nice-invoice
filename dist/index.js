@@ -115,7 +115,16 @@ let invoiceTable = (doc, invoice) => {
     formatCurrency(invoice.subtotal, currencySymbol)
   );
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const taxPosition = subtotalPosition + 20;
+  doc.font("Helvetica-Bold");
+  totalTable(
+    doc,
+    taxPosition,
+    "Tax",
+    formatCurrency(invoice.tax, currencySymbol)
+  );
+
+  const paidToDatePosition = subtotalPosition + 40;
   doc.font("Helvetica-Bold");
   totalTable(
     doc,
