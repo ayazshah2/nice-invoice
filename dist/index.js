@@ -56,16 +56,19 @@ let customerInformation = (doc, invoice) => {
     .text(invoice.shipping.name, 300, customerInformationTop)
     .font("Helvetica")
     .text(invoice.shipping.address, 300, customerInformationTop + 15)
-    .text(
-      invoice.shipping.city +
-      ", " +
-      invoice.shipping.state +
-      ", " +
-      invoice.shipping.country,
-      300,
-      customerInformationTop + 30
-    )
-    .moveDown();
+  if (invoice.shipping.city || invoice.shipping.state || invoice.shipping.country) {
+    doc
+      .text(
+        invoice.shipping.city +
+        ", " +
+        invoice.shipping.state +
+        ", " +
+        invoice.shipping.country,
+        300,
+        customerInformationTop + 30
+      )
+  }
+  doc.moveDown();
 
   generateHr(doc, 252);
 }
