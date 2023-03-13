@@ -1,6 +1,6 @@
 {
   "name": "nice-invoice-subtotal",
-  "version": "1.1.7",
+  "version": "1.2.7",
   "description": "forked version of nice-invoice, with fixed subtotal usage",
   "main": "dist/index.js",
   "scripts": {
