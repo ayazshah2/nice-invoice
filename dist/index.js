@@ -16,33 +16,33 @@ let niceInvoice = (invoice, path) => {
 
 let header = (doc, invoice) => {
 
-    if (fs.existsSync(invoice.header.company_logo)) {
-      doc.image(invoice.header.company_logo, 50, 45, { width: 50 })
+  if (fs.existsSync(invoice.header.company_logo)) {
+    doc.image(invoice.header.company_logo, 50, 45, { width: 50 })
       .fontSize(20)
       .text(invoice.header.company_name, 110, 57)
       .moveDown();
-    }else{
-      doc.fontSize(20)
+  } else {
+    doc.fontSize(20)
       .text(invoice.header.company_name, 50, 45)
       .moveDown();
-    }
+  }
 
-    if(invoice.header.company_address.length!==0){
-      companyAddress(doc, invoice.header.company_address);
-    }
-    
+  if (invoice.header.company_address.length !== 0) {
+    companyAddress(doc, invoice.header.company_address);
+  }
+
 }
 
-let customerInformation = (doc, invoice)=>{
+let customerInformation = (doc, invoice) => {
   doc.fillColor("#444444")
-  .fontSize(20)
-  .text("Invoice", 50, 160);
+    .fontSize(20)
+    .text("Invoice", 50, 160);
 
   generateHr(doc, 185);
 
   const customerInformationTop = 200;
 
-    doc.fontSize(10)
+  doc.fontSize(10)
     .text("Invoice Number:", 50, customerInformationTop)
     .font("Helvetica-Bold")
     .text(invoice.order_number, 150, customerInformationTop)
@@ -56,16 +56,19 @@ let customerInformation = (doc, invoice)=>{
     .text(invoice.shipping.name, 300, customerInformationTop)
     .font("Helvetica")
     .text(invoice.shipping.address, 300, customerInformationTop + 15)
-    .text(
-      invoice.shipping.city +
+  if (invoice.shipping.city || invoice.shipping.state || invoice.shipping.country) {
+    doc
+      .text(
+        invoice.shipping.city +
         ", " +
         invoice.shipping.state +
         ", " +
         invoice.shipping.country,
-      300,
-      customerInformationTop + 30
-    )
-    .moveDown();
+        300,
+        customerInformationTop + 30
+      )
+  }
+  doc.moveDown();
 
   generateHr(doc, 252);
 }
@@ -99,7 +102,7 @@ let invoiceTable = (doc, invoice) => {
       item.description,
       formatCurrency(item.price, currencySymbol),
       item.quantity,
-      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol), 
+      formatCurrency(applyTaxIfAvailable(item.price, item.quantity, item.tax), currencySymbol),
       checkIfTaxAvailable(item.tax)
     );
 
@@ -112,10 +115,19 @@ let invoiceTable = (doc, invoice) => {
     doc,
     subtotalPosition,
     "Subtotal",
-    formatCurrency(invoice.total, currencySymbol)
+    formatCurrency(invoice.subtotal, currencySymbol)
   );
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const taxPosition = subtotalPosition + 20;
+  doc.font("Helvetica-Bold");
+  totalTable(
+    doc,
+    taxPosition,
+    "Tax",
+    formatCurrency(invoice.tax, currencySymbol)
+  );
+
+  const paidToDatePosition = subtotalPosition + 40;
   doc.font("Helvetica-Bold");
   totalTable(
     doc,
@@ -126,9 +138,9 @@ let invoiceTable = (doc, invoice) => {
 }
 
 let footer = (doc, invoice) => {
-  if(invoice.footer.text.length!==0){
+  if (invoice.footer.text.length !== 0) {
     doc.fontSize(10).text(invoice.footer.text, 50, 780, { align: "center", width: 500 });
-  } 
+  }
 }
 
 let totalTable = (
@@ -136,9 +148,9 @@ let totalTable = (
   y,
   name,
   description
-)=>{
-    doc.fontSize(10)
-    .text(name, 400, y,{ width: 90, align: "right" })
+) => {
+  doc.fontSize(10)
+    .text(name, 400, y, { width: 90, align: "right" })
     .text(description, 0, y, { align: "right" })
 }
 
@@ -151,18 +163,18 @@ let tableRow = (
   quantity,
   lineTotal,
   tax
-)=>{
-    doc.fontSize(10)
+) => {
+  doc.fontSize(10)
     .text(item, 50, y)
     .text(description, 130, y)
     .text(unitCost, 280, y, { width: 90, align: "right" })
     .text(quantity, 335, y, { width: 90, align: "right" })
-    .text(lineTotal, 400, y,{ width: 90, align: "right" })
+    .text(lineTotal, 400, y, { width: 90, align: "right" })
     .text(tax, 0, y, { align: "right" });
 }
 
 let generateHr = (doc, y) => {
-    doc.strokeColor("#aaaaaa")
+  doc.strokeColor("#aaaaaa")
     .lineWidth(1)
     .moveTo(50, y)
     .lineTo(550, y)
@@ -173,37 +185,37 @@ let formatCurrency = (cents, symbol) => {
   return symbol + cents.toFixed(2);
 }
 
-let getNumber =  str =>  { 
-  if(str.length!==0){
-    var num = str.replace(/[^0-9]/g, ''); 
-  }else{
+let getNumber = str => {
+  if (str.length !== 0) {
+    var num = str.replace(/[^0-9]/g, '');
+  } else {
     var num = 0;
   }
-  
-  return num; 
+
+  return num;
 }
 
 let checkIfTaxAvailable = tax => {
   let validatedTax = getNumber(tax);
-  if(Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0){
-    var taxValue = tax;  
-  }else{
+  if (Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0) {
+    var taxValue = tax;
+  } else {
     var taxValue = '---';
   }
-  
+
   return taxValue;
 }
 
 let applyTaxIfAvailable = (price, quantity, tax) => {
-  
+
   let validatedTax = getNumber(tax);
-  if(Number.isNaN(validatedTax) === false && validatedTax <= 100){
-    let taxValue = '.'+validatedTax;
-    var itemPrice = (price * quantity) * (1 + taxValue);  
-  }else{
+  if (Number.isNaN(validatedTax) === false && validatedTax <= 100) {
+    let taxValue = '.' + validatedTax;
+    var itemPrice = (price * quantity) * (1 + taxValue);
+  } else {
     var itemPrice = (price * quantity) * (1 + taxValue);
   }
-  
+
   return itemPrice;
 }
 
@@ -211,9 +223,9 @@ let companyAddress = (doc, address) => {
   let str = address;
   let chunks = str.match(/.{0,25}(\s|$)/g);
   let first = 50;
-  chunks.forEach(function (i,x) {
+  chunks.forEach(function (i, x) {
     doc.fontSize(10).text(chunks[x], 200, first, { align: "right" });
-    first = +first +  15;
+    first = +first + 15;
   });
 }
 
